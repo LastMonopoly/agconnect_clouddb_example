@@ -1,3 +1,4 @@
+import 'package:agconnect_clouddb/agconnect_clouddb.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -50,7 +51,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
+  Future<void> _incrementCounter() async {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -59,6 +60,23 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+
+    try {
+      await AGConnectCloudDB.getInstance().initialize();
+      await AGConnectCloudDB.getInstance().createObjectType();
+      final zoneConfig = AGConnectCloudDBZoneConfig(
+        zoneName: "QuickStartDemo",
+      );
+      final AGConnectCloudDBZone zone =
+          await AGConnectCloudDB.getInstance().openCloudDBZone(
+        zoneConfig: zoneConfig,
+      );
+      await AGConnectCloudDB.getInstance().closeCloudDBZone(zone: zone);
+      print("Success");
+    } catch (e) {
+      // Catch error.
+      print("error");
+    }
   }
 
   @override
