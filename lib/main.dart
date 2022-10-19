@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:agconnect_clouddb/agconnect_clouddb.dart';
 import 'package:flutter/material.dart';
 
@@ -61,11 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
         objects = snapshot.snapshotObjects;
         error = null;
       } catch (e) {
+        print(e);
         error = e;
       }
       setState(() {});
       await cloudDB.closeCloudDBZone(zone: zone);
     } catch (e) {
+      print(e);
       setState(() {
         error = e;
       });
@@ -94,6 +98,9 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.search),
       ),
+      //TODO insert
+      //TODO subscribe
+      //TODO offline
     );
   }
 }
